@@ -1,0 +1,6 @@
+channels:
+- conda-forge
+dependencies:
+- pyiron-data =0.0.22
+- pyiron_atomistics =0.2.66
+- lammps =2023.03.28

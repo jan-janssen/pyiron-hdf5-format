@@ -1,6 +1,7 @@
 channels:
 - conda-forge
 dependencies:
-- pyiron-data =0.0.22
-- pyiron_atomistics =0.2.66
-- lammps =2023.03.28
+- pyiron-data =0.0.27
+- pyiron_atomistics =0.4.4
+- lammps =2023.08.02
+- sphinxdft =3.1

@@ -11,6 +11,8 @@ from pyiron_io.dataclasses.generic import (
     Executable,
     Server,
     Structure,
+    ElectronicStructure,
+    ChargeDensity,
 )
 
 
@@ -159,36 +161,14 @@ class SphinxInputParameters:
 
 
 @dataclass
-class SphinxOutputChargeDensity:
-    total: np.ndarray
-
-
-@dataclass
-class SphinxDensityOfStates:
-    energies: str
-    int_densities: str
-    tot_densities: str
-
-
-@dataclass
-class SphinxElectronicStructure:
-    efermi: float
-    eig_matrix: np.ndarray
-    k_points: np.ndarray
-    k_weights: np.ndarray
-    occ_matrix: np.ndarray
-    dos: SphinxDensityOfStates
-
-
-@dataclass
 class SphinxElectrostaticPotential:
     total: np.ndarray
 
 
 @dataclass
 class SphinxOutput:
-    charge_density: SphinxOutputChargeDensity
-    electronic_structure: SphinxElectronicStructure
+    charge_density: ChargeDensity
+    electronic_structure: ElectronicStructure
     electrostatic_potential: SphinxElectrostaticPotential
     generic: GenericOutput
 

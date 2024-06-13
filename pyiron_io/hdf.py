@@ -4,7 +4,7 @@ def convert_generic_parameters_to_string(generic_parameter_dict: dict) -> str:
         generic_parameter_dict["data_dict"]["Parameter"],
         generic_parameter_dict["data_dict"]["Value"],
     ):
-        output_str += p.replace("___", " ") + " " + v + "\n"
+        output_str += p.replace("___", " ") + " " + str(v) + "\n"
     return output_str[:-1]
 
 

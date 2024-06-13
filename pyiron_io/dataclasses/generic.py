@@ -4,28 +4,55 @@ from typing import Optional, List
 
 
 @dataclass
+class DensityOfStates:
+    energies: str
+    int_densities: str
+    tot_densities: str
+
+
+@dataclass
+class ElectronicStructure:
+    efermi: float
+    eig_matrix: np.ndarray
+    k_points: np.ndarray
+    k_weights: np.ndarray
+    occ_matrix: np.ndarray
+    dos: DensityOfStates
+
+
+@dataclass
 class OutputGenericDFT:
+    cbm_list: Optional[np.ndarray]
+    e_fermi_list: Optional[np.ndarray]
     energy_free: np.ndarray
-    n_valence: dict
-    bands_k_weights: np.ndarray
-    kpoints_cartesian: np.ndarray
-    bands_e_fermi: np.ndarray
-    bands_occ: np.ndarray
-    bands_eigen_values: np.ndarray
-    scf_convergence: List[bool]
+    energy_zero: np.ndarray
+    energy_int: np.ndarray
+    final_magmoms: Optional[np.ndarray]
+    magnetization: Optional[np.ndarray]
+    n_elect: Optional[float]
+    n_valence: Optional[dict]
+    potentiostat_output: Optional[np.ndarray]
+    bands_k_weights: Optional[np.ndarray]
+    kpoints_cartesian: Optional[np.ndarray]
+    bands_e_fermi: Optional[np.ndarray]
+    bands_occ: Optional[np.ndarray]
+    bands_eigen_values: Optional[np.ndarray]
+    scf_convergence: Optional[List[bool]]
+    scf_dipole_mom: Optional[np.ndarray]
     scf_energy_int: np.ndarray
     scf_energy_free: np.ndarray
-    scf_computation_time: np.ndarray
+    scf_computation_time: Optional[np.ndarray]
     scf_energy_zero: np.ndarray
-    scf_energy_band: np.ndarray
-    scf_electronic_entropy: np.ndarray
-    scf_residue: np.ndarray
-    energy_int: np.ndarray
-    computation_time: np.ndarray
-    energy_zero: np.ndarray
-    energy_band: np.ndarray
-    electronic_entropy: np.ndarray
-    residue: np.ndarray
+    valence_charges: Optional[np.ndarray]
+    vbm_list: Optional[np.ndarray]
+    bands: Optional[ElectronicStructure]
+    scf_energy_band: Optional[np.ndarray]
+    scf_electronic_entropy: Optional[np.ndarray]
+    scf_residue: Optional[np.ndarray]
+    computation_time: Optional[np.ndarray]
+    energy_band: Optional[np.ndarray]
+    electronic_entropy: Optional[np.ndarray]
+    residue: Optional[np.ndarray]
 
 
 @dataclass
@@ -39,11 +66,18 @@ class GenericOutput:
     positions: np.ndarray  # N_steps * N_atoms * 3  [Angstrom]
     pressures: Optional[np.ndarray]  # N_steps * 3 * 3
     steps: Optional[np.ndarray]  # N_steps
+    stresses: Optional[np.ndarray]  # N_steps
     temperature: Optional[np.ndarray]  # N_steps
     unwrapped_positions: Optional[np.ndarray]  # N_steps * N_atoms * 3  [Angstrom]
     velocities: Optional[np.ndarray]  # N_steps * N_atoms * 3  [Angstrom/fs]
     volume: np.ndarray  # N_steps
     dft: Optional[OutputGenericDFT]
+    elastic_constants: Optional[np.ndarray]
+
+
+@dataclass
+class ChargeDensity:
+    total: np.ndarray
 
 
 @dataclass

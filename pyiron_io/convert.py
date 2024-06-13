@@ -426,7 +426,9 @@ def convert_sphinx_job_dict(job_dict: dict) -> SphinxJob:
                     final_magmoms=output_dict["dft"].get("final_magmoms", None),
                     magnetization=output_dict["dft"].get("magnetization", None),
                     n_elect=output_dict["dft"].get("n_elect", None),
-                    potentiostat_output=output_dict["dft"].get("potentiostat_output", None),
+                    potentiostat_output=output_dict["dft"].get(
+                        "potentiostat_output", None
+                    ),
                     scf_dipole_mom=output_dict["dft"].get("scf_dipole_mom", None),
                     valence_charges=output_dict["dft"].get("valence_charges", None),
                     vbm_list=output_dict["dft"].get("vbm_list", None),
@@ -511,18 +513,12 @@ def convert_lammps_job_dict(job_dict: dict) -> LammpsJob:
                 ),
             ),
             potential=LammpsPotential(
-                citation=job_dict["input"]["potential_inp"]["potential"][
-                    "Citations"
-                ],
+                citation=job_dict["input"]["potential_inp"]["potential"]["Citations"],
                 config=job_dict["input"]["potential_inp"]["potential"]["Config"],
-                filename=job_dict["input"]["potential_inp"]["potential"][
-                    "Filename"
-                ],
+                filename=job_dict["input"]["potential_inp"]["potential"]["Filename"],
                 model=job_dict["input"]["potential_inp"]["potential"]["Model"],
                 name=job_dict["input"]["potential_inp"]["potential"]["Name"],
-                species=job_dict["input"]["potential_inp"]["potential"][
-                    "Species"
-                ],
+                species=job_dict["input"]["potential_inp"]["potential"]["Species"],
             ),
             input_files=LammpsInputFiles(
                 control_inp=convert_generic_parameters_to_string(
@@ -569,15 +565,11 @@ def convert_lammps_job_dict(job_dict: dict) -> LammpsJob:
                 / ureg.angstrom,
                 indices=job_dict["output"]["generic"]["indices"],
                 natoms=job_dict["output"]["generic"]["natoms"],
-                positions=job_dict["output"]["generic"]["positions"]
-                * ureg.angstrom,
+                positions=job_dict["output"]["generic"]["positions"] * ureg.angstrom,
                 pressures=job_dict["output"]["generic"]["pressures"] * ureg.GPa,
                 steps=job_dict["output"]["generic"]["steps"],
-                temperature=job_dict["output"]["generic"]["temperature"]
-                * ureg.kelvin,
-                unwrapped_positions=job_dict["output"]["generic"][
-                    "unwrapped_positions"
-                ]
+                temperature=job_dict["output"]["generic"]["temperature"] * ureg.kelvin,
+                unwrapped_positions=job_dict["output"]["generic"]["unwrapped_positions"]
                 * ureg.angstrom,
                 velocities=job_dict["output"]["generic"]["velocities"]
                 * ureg.angstrom
@@ -588,7 +580,9 @@ def convert_lammps_job_dict(job_dict: dict) -> LammpsJob:
                 * ureg.angstrom,
                 dft=None,
                 stresses=job_dict["output"]["generic"].get("stresses", None),
-                elastic_constants=job_dict["output"]["generic"].get("elastic_constants", None),
+                elastic_constants=job_dict["output"]["generic"].get(
+                    "elastic_constants", None
+                ),
             ),
         ),
         job_id=job_dict["job_id"],
@@ -599,16 +593,20 @@ def convert_lammps_job_dict(job_dict: dict) -> LammpsJob:
 def convert_vasp_job_dict(job_dict):
     ureg = UnitRegistry()
     generic_input_dict = convert_generic_parameters_to_dictionary(
-        generic_parameter_dict=job_dict["input"]['generic'],
+        generic_parameter_dict=job_dict["input"]["generic"],
     )
     return VaspJob(
         executable=Executable(
             version=job_dict["executable"]["executable"]["version"],
             name=job_dict["executable"]["executable"]["name"],
-            operation_system_nt=job_dict["executable"]["executable"]["operation_system_nt"],
+            operation_system_nt=job_dict["executable"]["executable"][
+                "operation_system_nt"
+            ],
             executable=job_dict["executable"]["executable"]["executable"],
             mpi=job_dict["executable"]["executable"]["mpi"],
-            accepted_return_codes=job_dict["executable"]["executable"]["accepted_return_codes"],
+            accepted_return_codes=job_dict["executable"]["executable"][
+                "accepted_return_codes"
+            ],
         ),
         job_id=job_dict["job_id"],
         server=Server(
@@ -628,14 +626,26 @@ def convert_vasp_job_dict(job_dict):
         status=job_dict["status"],
         calculation_input=VaspInput(
             generic_dict=GenericDict(
-                restart_file_list=job_dict["input"]['generic_dict']['restart_file_list'],
-                restart_file_dict=job_dict["input"]['generic_dict']['restart_file_dict'],
-                exclude_nodes_hdf=job_dict["input"]['generic_dict']['exclude_nodes_hdf'],
-                exclude_groups_hdf=job_dict["input"]['generic_dict']['exclude_groups_hdf'],
+                restart_file_list=job_dict["input"]["generic_dict"][
+                    "restart_file_list"
+                ],
+                restart_file_dict=job_dict["input"]["generic_dict"][
+                    "restart_file_dict"
+                ],
+                exclude_nodes_hdf=job_dict["input"]["generic_dict"][
+                    "exclude_nodes_hdf"
+                ],
+                exclude_groups_hdf=job_dict["input"]["generic_dict"][
+                    "exclude_groups_hdf"
+                ],
             ),
             interactive=Interactive(
-                interactive_flush_frequency=job_dict["input"]['interactive']["interactive_flush_frequency"],
-                interactive_write_frequency=job_dict["input"]['interactive']["interactive_flush_frequency"],
+                interactive_flush_frequency=job_dict["input"]["interactive"][
+                    "interactive_flush_frequency"
+                ],
+                interactive_write_frequency=job_dict["input"]["interactive"][
+                    "interactive_flush_frequency"
+                ],
             ),
             potential_dict=job_dict["input"]["potential_dict"],
             generic=GenericInput(
@@ -644,44 +654,60 @@ def convert_vasp_job_dict(job_dict):
                 temperature=generic_input_dict.get("temperature", None),
                 n_ionic_steps=generic_input_dict.get("n_ionic_steps", None),
                 n_print=generic_input_dict.get("n_print", None),
-                temperature_damping_timescale=generic_input_dict.get("temperature_damping_timescale", None),
-                pressure_damping_timescale=generic_input_dict.get("pressure_damping_timescale", None),
+                temperature_damping_timescale=generic_input_dict.get(
+                    "temperature_damping_timescale", None
+                ),
+                pressure_damping_timescale=generic_input_dict.get(
+                    "pressure_damping_timescale", None
+                ),
                 time_step=generic_input_dict.get("time_step", None),
                 fix_symmetry=generic_input_dict.get("fix_symmetry", None),
                 k_mesh_spacing=generic_input_dict.get("k_mesh_spacing", None),
                 k_mesh_center_shift=generic_input_dict.get("k_mesh_center_shift", None),
-                reduce_kpoint_symmetry=generic_input_dict.get("reduce_kpoint_symmetry", None),
-                restart_for_band_structure=generic_input_dict.get("restart_for_band_structure", None),
+                reduce_kpoint_symmetry=generic_input_dict.get(
+                    "reduce_kpoint_symmetry", None
+                ),
+                restart_for_band_structure=generic_input_dict.get(
+                    "restart_for_band_structure", None
+                ),
                 path_name=generic_input_dict.get("path_name", None),
                 n_path=generic_input_dict.get("n_path", None),
                 fix_spin_constraint=generic_input_dict.get("fix_spin_constraint", None),
                 max_iter=generic_input_dict.get("max_iter", None),
             ),
-            incar=convert_generic_parameters_to_string(generic_parameter_dict=job_dict["input"]["incar"]),
-            kpoints=convert_generic_parameters_to_string(generic_parameter_dict=job_dict["input"]["kpoints"]),
+            incar=convert_generic_parameters_to_string(
+                generic_parameter_dict=job_dict["input"]["incar"]
+            ),
+            kpoints=convert_generic_parameters_to_string(
+                generic_parameter_dict=job_dict["input"]["kpoints"]
+            ),
             potcar=PotCar(
-                xc=convert_generic_parameters_to_dictionary(generic_parameter_dict=job_dict["input"]["potcar"])[
-                    "xc"]),
+                xc=convert_generic_parameters_to_dictionary(
+                    generic_parameter_dict=job_dict["input"]["potcar"]
+                )["xc"]
+            ),
             structure=Structure(
-                dimension=job_dict["input"]["structure"]['dimension'],
-                indices=job_dict["input"]["structure"]['indices'],
-                info=job_dict["input"]["structure"]['info'],
-                positions=job_dict["input"]["structure"]['positions'],
-                species=job_dict["input"]["structure"]['species'],
+                dimension=job_dict["input"]["structure"]["dimension"],
+                indices=job_dict["input"]["structure"]["indices"],
+                info=job_dict["input"]["structure"]["info"],
+                positions=job_dict["input"]["structure"]["positions"],
+                species=job_dict["input"]["structure"]["species"],
                 cell=Cell(
-                    cell=job_dict["input"]["structure"]['cell']["cell"],
-                    pbc=job_dict["input"]["structure"]["cell"]['pbc'],
+                    cell=job_dict["input"]["structure"]["cell"]["cell"],
+                    pbc=job_dict["input"]["structure"]["cell"]["pbc"],
                 ),
                 units=Units(
-                    length=job_dict["input"]["structure"]['units']["length"],
-                    mass=job_dict["input"]["structure"]['units']["mass"],
+                    length=job_dict["input"]["structure"]["units"]["length"],
+                    mass=job_dict["input"]["structure"]["units"]["mass"],
                 ),
             ),
             vasp_dict=job_dict["input"]["vasp_dict"],
         ),
         calculation_output=VaspOutput(
-            description=job_dict["output"]['description'],
-            charge_density=ChargeDensity(total=job_dict["output"]["charge_density"]["total"]),
+            description=job_dict["output"]["description"],
+            charge_density=ChargeDensity(
+                total=job_dict["output"]["charge_density"]["total"]
+            ),
             electronic_structure=ElectronicStructure(
                 efermi=job_dict["output"]["electronic_structure"]["efermi"] * ureg.eV,
                 eig_matrix=job_dict["output"]["electronic_structure"]["eig_matrix"],
@@ -689,103 +715,192 @@ def convert_vasp_job_dict(job_dict):
                 k_weights=job_dict["output"]["electronic_structure"]["k_weights"],
                 occ_matrix=job_dict["output"]["electronic_structure"]["occ_matrix"],
                 dos=DensityOfStates(
-                    energies=job_dict["output"]["electronic_structure"]["dos"]["energies"],
-                    int_densities=job_dict["output"]["electronic_structure"]["dos"]["int_densities"],
-                    tot_densities=job_dict["output"]["electronic_structure"]["dos"]["tot_densities"],
+                    energies=job_dict["output"]["electronic_structure"]["dos"][
+                        "energies"
+                    ],
+                    int_densities=job_dict["output"]["electronic_structure"]["dos"][
+                        "int_densities"
+                    ],
+                    tot_densities=job_dict["output"]["electronic_structure"]["dos"][
+                        "tot_densities"
+                    ],
                 ),
             ),
             generic=GenericOutput(
                 cells=job_dict["output"]["generic"]["cells"] * ureg.angstrom,
                 energy_pot=job_dict["output"]["generic"]["energy_pot"] * ureg.eV,
                 energy_tot=job_dict["output"]["generic"]["energy_pot"] * ureg.eV,
-                elastic_constants=job_dict["output"]["generic"]['elastic_constants'],
-                forces=job_dict["output"]["generic"]['forces'] * ureg.eV / ureg.angstrom,
+                elastic_constants=job_dict["output"]["generic"]["elastic_constants"],
+                forces=job_dict["output"]["generic"]["forces"]
+                * ureg.eV
+                / ureg.angstrom,
                 indices=job_dict["output"]["generic"].get("indices", None),
                 natoms=job_dict["output"]["generic"].get("natoms", None),
-                positions=job_dict["output"]["generic"]['positions'] * ureg.angstrom,
-                pressures=job_dict["output"]["generic"]['pressures'] * ureg.GPa,
-                steps=job_dict["output"]["generic"]['steps'],
-                stresses=job_dict["output"]["generic"]['stresses'],
-                temperature=job_dict["output"]["generic"]['temperature'] * ureg.kelvin,
-                unwrapped_positions=job_dict["output"]["generic"].get("unwrapped_positions", None),
+                positions=job_dict["output"]["generic"]["positions"] * ureg.angstrom,
+                pressures=job_dict["output"]["generic"]["pressures"] * ureg.GPa,
+                steps=job_dict["output"]["generic"]["steps"],
+                stresses=job_dict["output"]["generic"]["stresses"],
+                temperature=job_dict["output"]["generic"]["temperature"] * ureg.kelvin,
+                unwrapped_positions=job_dict["output"]["generic"].get(
+                    "unwrapped_positions", None
+                ),
                 velocities=job_dict["output"]["generic"].get("velocities", None),
-                volume=job_dict["output"]["generic"]['volume'] * ureg.angstrom * ureg.angstrom * ureg.angstrom,
+                volume=job_dict["output"]["generic"]["volume"]
+                * ureg.angstrom
+                * ureg.angstrom
+                * ureg.angstrom,
                 dft=OutputGenericDFT(
                     cbm_list=job_dict["output"]["generic"]["dft"]["cbm_list"],
                     e_fermi_list=job_dict["output"]["generic"]["dft"]["e_fermi_list"],
-                    energy_free=job_dict["output"]["generic"]["dft"]["energy_free"] * ureg.eV,
-                    energy_int=job_dict["output"]["generic"]["dft"]["energy_int"] * ureg.eV,
-                    energy_zero=job_dict["output"]["generic"]["dft"]["energy_zero"] * ureg.eV,
-                    final_magmoms=job_dict["output"]["generic"]["dft"]['final_magmoms'],
-                    magnetization=job_dict["output"]["generic"]["dft"]['magnetization'],
-                    n_elect=job_dict["output"]["generic"]["dft"]['n_elect'],
-                    potentiostat_output=job_dict["output"]["generic"]["dft"]['potentiostat_output'],
-                    n_valence=job_dict["output"]["generic"]["dft"].get("n_valence", None),
-                    bands_k_weights=job_dict["output"]["generic"]["dft"].get("bands_k_weights", None),
-                    kpoints_cartesian=job_dict["output"]["generic"]["dft"].get("kpoints_cartesian", None),
-                    bands_e_fermi=job_dict["output"]["generic"]["dft"].get("bands_e_fermi", None),
-                    bands_occ=job_dict["output"]["generic"]["dft"].get("bands_occ", None),
-                    bands_eigen_values=job_dict["output"]["generic"]["dft"].get("bands_eigen_values", None),
-                    scf_convergence=job_dict["output"]["generic"]["dft"].get("scf_convergence", None),
-                    scf_dipole_mom=job_dict["output"]["generic"]["dft"].get("scf_dipole_mom", None),
-                    scf_energy_int=job_dict["output"]["generic"]["dft"]['scf_energy_int'],
-                    scf_energy_free=job_dict["output"]["generic"]["dft"]['scf_energy_free'] * ureg.eV,
-                    scf_computation_time=job_dict["output"]["generic"]["dft"].get("scf_computation_time", None),
-                    scf_energy_zero=job_dict["output"]["generic"]["dft"]['scf_energy_zero'] * ureg.eV,
-                    valence_charges=job_dict["output"]["generic"]["dft"]['valence_charges'] * ureg.eV,
-                    vbm_list=job_dict["output"]["generic"]["dft"]['vbm_list'],
+                    energy_free=job_dict["output"]["generic"]["dft"]["energy_free"]
+                    * ureg.eV,
+                    energy_int=job_dict["output"]["generic"]["dft"]["energy_int"]
+                    * ureg.eV,
+                    energy_zero=job_dict["output"]["generic"]["dft"]["energy_zero"]
+                    * ureg.eV,
+                    final_magmoms=job_dict["output"]["generic"]["dft"]["final_magmoms"],
+                    magnetization=job_dict["output"]["generic"]["dft"]["magnetization"],
+                    n_elect=job_dict["output"]["generic"]["dft"]["n_elect"],
+                    potentiostat_output=job_dict["output"]["generic"]["dft"][
+                        "potentiostat_output"
+                    ],
+                    n_valence=job_dict["output"]["generic"]["dft"].get(
+                        "n_valence", None
+                    ),
+                    bands_k_weights=job_dict["output"]["generic"]["dft"].get(
+                        "bands_k_weights", None
+                    ),
+                    kpoints_cartesian=job_dict["output"]["generic"]["dft"].get(
+                        "kpoints_cartesian", None
+                    ),
+                    bands_e_fermi=job_dict["output"]["generic"]["dft"].get(
+                        "bands_e_fermi", None
+                    ),
+                    bands_occ=job_dict["output"]["generic"]["dft"].get(
+                        "bands_occ", None
+                    ),
+                    bands_eigen_values=job_dict["output"]["generic"]["dft"].get(
+                        "bands_eigen_values", None
+                    ),
+                    scf_convergence=job_dict["output"]["generic"]["dft"].get(
+                        "scf_convergence", None
+                    ),
+                    scf_dipole_mom=job_dict["output"]["generic"]["dft"].get(
+                        "scf_dipole_mom", None
+                    ),
+                    scf_energy_int=job_dict["output"]["generic"]["dft"][
+                        "scf_energy_int"
+                    ],
+                    scf_energy_free=job_dict["output"]["generic"]["dft"][
+                        "scf_energy_free"
+                    ]
+                    * ureg.eV,
+                    scf_computation_time=job_dict["output"]["generic"]["dft"].get(
+                        "scf_computation_time", None
+                    ),
+                    scf_energy_zero=job_dict["output"]["generic"]["dft"][
+                        "scf_energy_zero"
+                    ]
+                    * ureg.eV,
+                    valence_charges=job_dict["output"]["generic"]["dft"][
+                        "valence_charges"
+                    ]
+                    * ureg.eV,
+                    vbm_list=job_dict["output"]["generic"]["dft"]["vbm_list"],
                     bands=ElectronicStructure(
-                        efermi=job_dict["output"]["generic"]["dft"]['bands']["efermi"],
-                        eig_matrix=job_dict["output"]["generic"]["dft"]['bands']["eig_matrix"],
-                        k_points=job_dict["output"]["generic"]["dft"]['bands']["k_points"],
-                        k_weights=job_dict["output"]["generic"]["dft"]['bands']["k_weights"],
-                        occ_matrix=job_dict["output"]["generic"]["dft"]['bands']["occ_matrix"],
+                        efermi=job_dict["output"]["generic"]["dft"]["bands"]["efermi"],
+                        eig_matrix=job_dict["output"]["generic"]["dft"]["bands"][
+                            "eig_matrix"
+                        ],
+                        k_points=job_dict["output"]["generic"]["dft"]["bands"][
+                            "k_points"
+                        ],
+                        k_weights=job_dict["output"]["generic"]["dft"]["bands"][
+                            "k_weights"
+                        ],
+                        occ_matrix=job_dict["output"]["generic"]["dft"]["bands"][
+                            "occ_matrix"
+                        ],
                         dos=DensityOfStates(
-                            energies=job_dict["output"]["generic"]["dft"]['bands']["dos"]["energies"],
-                            int_densities=job_dict["output"]["generic"]["dft"]['bands']["dos"]["int_densities"],
-                            tot_densities=job_dict["output"]["generic"]["dft"]['bands']["dos"]["tot_densities"],
+                            energies=job_dict["output"]["generic"]["dft"]["bands"][
+                                "dos"
+                            ]["energies"],
+                            int_densities=job_dict["output"]["generic"]["dft"]["bands"][
+                                "dos"
+                            ]["int_densities"],
+                            tot_densities=job_dict["output"]["generic"]["dft"]["bands"][
+                                "dos"
+                            ]["tot_densities"],
                         ),
                     ),
-                    scf_energy_band=job_dict["output"]["generic"]["dft"].get("scf_energy_band", None),
-                    scf_electronic_entropy=job_dict["output"]["generic"]["dft"].get("scf_electronic_entropy",
-                                                                                            None),
-                    scf_residue=job_dict["output"]["generic"]["dft"].get("scf_residue", None),
-                    computation_time=job_dict["output"]["generic"]["dft"].get("computation_time", None),
-                    energy_band=job_dict["output"]["generic"]["dft"].get("energy_band", None),
-                    electronic_entropy=job_dict["output"]["generic"]["dft"].get("electronic_entropy", None),
+                    scf_energy_band=job_dict["output"]["generic"]["dft"].get(
+                        "scf_energy_band", None
+                    ),
+                    scf_electronic_entropy=job_dict["output"]["generic"]["dft"].get(
+                        "scf_electronic_entropy", None
+                    ),
+                    scf_residue=job_dict["output"]["generic"]["dft"].get(
+                        "scf_residue", None
+                    ),
+                    computation_time=job_dict["output"]["generic"]["dft"].get(
+                        "computation_time", None
+                    ),
+                    energy_band=job_dict["output"]["generic"]["dft"].get(
+                        "energy_band", None
+                    ),
+                    electronic_entropy=job_dict["output"]["generic"]["dft"].get(
+                        "electronic_entropy", None
+                    ),
                     residue=job_dict["output"]["generic"]["dft"].get("residue", None),
-                )
+                ),
             ),
             outcar=OutCar(
-                broyden_mixing=job_dict["output"]["outcar"]['broyden_mixing'],
-                irreducible_kpoint_weights=job_dict["output"]["outcar"]['irreducible_kpoint_weights'],
-                irreducible_kpoints=job_dict["output"]["outcar"]['irreducible_kpoints'],
-                kin_energy_error=job_dict["output"]["outcar"]['kin_energy_error'],
-                number_plane_waves=job_dict["output"]["outcar"]['number_plane_waves'],
+                broyden_mixing=job_dict["output"]["outcar"]["broyden_mixing"],
+                irreducible_kpoint_weights=job_dict["output"]["outcar"][
+                    "irreducible_kpoint_weights"
+                ],
+                irreducible_kpoints=job_dict["output"]["outcar"]["irreducible_kpoints"],
+                kin_energy_error=job_dict["output"]["outcar"]["kin_energy_error"],
+                number_plane_waves=job_dict["output"]["outcar"]["number_plane_waves"],
                 resources=VaspResources(
-                    cpu_time=job_dict["output"]["outcar"]['resources']["cpu_time"],
-                    user_time=job_dict["output"]["outcar"]['resources']["user_time"],
-                    system_time=job_dict["output"]["outcar"]['resources']["system_time"],
-                    elapsed_time=job_dict["output"]["outcar"]['resources']["elapsed_time"],
-                    memory_used=job_dict["output"]["outcar"]['resources']["memory_used"],
+                    cpu_time=job_dict["output"]["outcar"]["resources"]["cpu_time"],
+                    user_time=job_dict["output"]["outcar"]["resources"]["user_time"],
+                    system_time=job_dict["output"]["outcar"]["resources"][
+                        "system_time"
+                    ],
+                    elapsed_time=job_dict["output"]["outcar"]["resources"][
+                        "elapsed_time"
+                    ],
+                    memory_used=job_dict["output"]["outcar"]["resources"][
+                        "memory_used"
+                    ],
                 ),
-                stresses=job_dict["output"]["outcar"]['stresses'],
-                energy_components=job_dict["output"]["outcar"]['energy_components'],
+                stresses=job_dict["output"]["outcar"]["stresses"],
+                energy_components=job_dict["output"]["outcar"]["energy_components"],
             ),
             structure=Structure(
-                dimension=job_dict["output"]["structure"]['dimension'],
-                indices=job_dict["output"]["structure"]['indices'],
-                info=job_dict["output"]["structure"]['info'],
-                positions=job_dict["output"]["structure"]['positions'],
-                species=job_dict["output"]["structure"]['species'],
+                dimension=job_dict["output"]["structure"]["dimension"],
+                indices=job_dict["output"]["structure"]["indices"],
+                info=job_dict["output"]["structure"]["info"],
+                positions=job_dict["output"]["structure"]["positions"],
+                species=job_dict["output"]["structure"]["species"],
                 cell=Cell(
-                    cell=job_dict["output"]["structure"]['cell']["cell"],
-                    pbc=job_dict["output"]["structure"]["cell"]['pbc'],
+                    cell=job_dict["output"]["structure"]["cell"]["cell"],
+                    pbc=job_dict["output"]["structure"]["cell"]["pbc"],
                 ),
                 units=Units(
-                    length=job_dict["output"]["structure"]['units']["length"],
-                    mass=job_dict["output"]["structure"]['units']["mass"],
+                    length=job_dict["output"]["structure"]["units"]["length"],
+                    mass=job_dict["output"]["structure"]["units"]["mass"],
                 ),
             ),
         ),
     )
+
+
+def convert(job_dict):
+    funct_dict = {
+        "<class 'pyiron_atomistics.lammps.lammps.Lammps'>": convert_lammps_job_dict,
+        "<class 'pyiron_atomistics.sphinx.sphinx.Sphinx'>": convert_sphinx_job_dict,
+        "<class 'pyiron_atomistics.vasp.vasp.Vasp'>": convert_vasp_job_dict,
+    }
+    return funct_dict[job_dict["TYPE"]](job_dict=job_dict)

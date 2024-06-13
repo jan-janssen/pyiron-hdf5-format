@@ -1,12 +1,4 @@
-def get_node_from_job_dict(job_dict, node):
-    node_name_lst = node.split("/")
-    tmp_dict = job_dict
-    for group in node_name_lst:
-        tmp_dict = tmp_dict[group]
-    return tmp_dict
-
-
-def convert_generic_parameters_to_string(generic_parameter_dict):
+def convert_generic_parameters_to_string(generic_parameter_dict: dict) -> str:
     output_str = ""
     for p, v in zip(
         generic_parameter_dict["data_dict"]["Parameter"],
@@ -16,7 +8,7 @@ def convert_generic_parameters_to_string(generic_parameter_dict):
     return output_str[:-1]
 
 
-def convert_generic_parameters_to_dictionary(generic_parameter_dict):
+def convert_generic_parameters_to_dictionary(generic_parameter_dict: dict) -> dict:
     return {
         p: v
         for p, v in zip(
@@ -26,10 +18,10 @@ def convert_generic_parameters_to_dictionary(generic_parameter_dict):
     }
 
 
-def filter_dict(input_dict, remove_keys_lst):
-    def recursive_filter(input_value, remove_keys_lst):
+def _filter_dict(input_dict: dict, remove_keys_lst: list) -> dict:
+    def recursive_filter(input_value: dict, remove_keys_lst: list) -> dict:
         if isinstance(input_value, dict):
-            return filter_dict(input_dict=input_value, remove_keys_lst=remove_keys_lst)
+            return _filter_dict(input_dict=input_value, remove_keys_lst=remove_keys_lst)
         else:
             return input_value
 
@@ -40,10 +32,10 @@ def filter_dict(input_dict, remove_keys_lst):
     }
 
 
-def sort_dictionary_from_datacontainer(input_dict):
-    def recursive_sort(input_value):
+def _sort_dictionary_from_datacontainer(input_dict: dict) -> dict:
+    def recursive_sort(input_value: dict) -> dict:
         if isinstance(input_value, dict):
-            return sort_dictionary_from_datacontainer(input_dict=input_value)
+            return _sort_dictionary_from_datacontainer(input_dict=input_value)
         else:
             return input_value
 
@@ -73,9 +65,9 @@ def sort_dictionary_from_datacontainer(input_dict):
         raise KeyError()
 
 
-def convert_datacontainer_to_dictionary(data_container_dict):
-    return sort_dictionary_from_datacontainer(
-        input_dict=filter_dict(
+def convert_datacontainer_to_dictionary(data_container_dict: dict) -> dict:
+    return _sort_dictionary_from_datacontainer(
+        input_dict=_filter_dict(
             input_dict=data_container_dict,
             remove_keys_lst=[
                 "NAME",

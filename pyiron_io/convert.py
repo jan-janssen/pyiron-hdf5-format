@@ -53,7 +53,7 @@ from pyiron_io.dataclasses.sphinx import (
 )
 
 
-def convert_sphinx_job_dict(job_dict):
+def convert_sphinx_job_dict(job_dict: dict) -> SphinxJob:
     ureg = UnitRegistry()
     sphinx_input_parameter_dict = convert_datacontainer_to_dictionary(
         data_container_dict=job_dict["input"]["parameters"]
@@ -419,7 +419,7 @@ def convert_sphinx_job_dict(job_dict):
     )
 
 
-def convert_lammps_job_dict(job_dict):
+def convert_lammps_job_dict(job_dict: dict) -> LammpsJob:
     ureg = UnitRegistry()
     generic_input_dict = convert_generic_parameters_to_dictionary(
         generic_parameter_dict=job_dict["input"]["generic"],

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 import numpy as np
-from typing import Optional, List
+from typing import List
 
 
 from pyiron_io.dataclasses.generic import (

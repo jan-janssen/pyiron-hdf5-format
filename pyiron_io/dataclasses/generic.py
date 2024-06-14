@@ -22,11 +22,14 @@ class ElectronicStructure:
 
 @dataclass
 class OutputGenericDFT:
+    energy_free: np.ndarray
+    energy_int: np.ndarray
+    energy_zero: np.ndarray
+    scf_energy_free: np.ndarray
+    scf_energy_int: np.ndarray
+    scf_energy_zero: np.ndarray
     cbm_list: Optional[np.ndarray]
     e_fermi_list: Optional[np.ndarray]
-    energy_free: np.ndarray
-    energy_zero: np.ndarray
-    energy_int: np.ndarray
     final_magmoms: Optional[np.ndarray]
     magnetization: Optional[np.ndarray]
     n_elect: Optional[float]
@@ -39,10 +42,7 @@ class OutputGenericDFT:
     bands_eigen_values: Optional[np.ndarray]
     scf_convergence: Optional[List[bool]]
     scf_dipole_mom: Optional[np.ndarray]
-    scf_energy_int: np.ndarray
-    scf_energy_free: np.ndarray
     scf_computation_time: Optional[np.ndarray]
-    scf_energy_zero: np.ndarray
     valence_charges: Optional[np.ndarray]
     vbm_list: Optional[np.ndarray]
     bands: Optional[ElectronicStructure]
@@ -61,16 +61,16 @@ class GenericOutput:
     energy_pot: np.ndarray  # N_steps  [eV]
     energy_tot: np.ndarray  # N_steps  [eV]
     forces: np.ndarray  # N_steps * N_atoms * 3  [eV/Angstrom]
+    positions: np.ndarray  # N_steps * N_atoms * 3  [Angstrom]
+    volume: np.ndarray  # N_steps
     indices: Optional[np.ndarray]  # N_steps * N_atoms
     natoms: Optional[np.ndarray]  # N_steps
-    positions: np.ndarray  # N_steps * N_atoms * 3  [Angstrom]
     pressures: Optional[np.ndarray]  # N_steps * 3 * 3
     steps: Optional[np.ndarray]  # N_steps
     stresses: Optional[np.ndarray]  # N_steps
     temperature: Optional[np.ndarray]  # N_steps
     unwrapped_positions: Optional[np.ndarray]  # N_steps * N_atoms * 3  [Angstrom]
     velocities: Optional[np.ndarray]  # N_steps * N_atoms * 3  [Angstrom/fs]
-    volume: np.ndarray  # N_steps
     dft: Optional[OutputGenericDFT]
     elastic_constants: Optional[np.ndarray]
 
@@ -85,15 +85,15 @@ class Server:
     user: str
     host: str
     run_mode: str
-    queue: Optional[str]
-    qid: Optional[int]
     cores: int
     threads: int
     new_h5: bool
-    structure_id: Optional[int]
-    run_time: int  # [seconds]
-    memory_limit: Optional[str]
     accept_crash: bool
+    run_time: int  # [seconds]
+    structure_id: Optional[int]
+    memory_limit: Optional[str]
+    queue: Optional[str]
+    qid: Optional[int]
 
 
 @dataclass

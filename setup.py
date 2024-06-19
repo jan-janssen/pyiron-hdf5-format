@@ -9,5 +9,6 @@ setup(
     install_requires=[
         "pint",
         "numpy",
+        "h5io_browser",
     ],
 )

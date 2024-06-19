@@ -25,5 +25,5 @@ jobs:
       timeout-minutes: 5
       run: |
         pip install .
-        papermill lammps_dataclass.ipynb lammps_dataclass_out.ipynb -k python3
-        papermill sphinxdft_dataclass.ipynb sphinxdft_dataclass_out.ipynb -k python3
+        papermill lammps.ipynb lammps_out.ipynb -k python3
+        papermill sphinxdft.ipynb sphinxdft_out.ipynb -k python3

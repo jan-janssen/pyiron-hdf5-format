@@ -1,0 +1,21 @@
+name: Unittests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12' 
+    - name: Test
+      shell: bash -l {0}
+      timeout-minutes: 5
+      run: |
+        pip install .
+        python -m unittest discover tests

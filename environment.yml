@@ -1,6 +1,8 @@
 channels:
 - conda-forge
 dependencies:
+- jupyter
+- papermill
 - pyiron-data =0.0.29
 - pyiron_atomistics =0.6.1
 - lammps =2024.02.07=*_openmpi_*

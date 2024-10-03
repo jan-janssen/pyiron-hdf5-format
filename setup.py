@@ -10,5 +10,6 @@ setup(
         "pint",
         "numpy",
         "h5io_browser",
+        "pyiron_dataclasses"
     ],
 )

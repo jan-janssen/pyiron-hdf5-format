@@ -1,7 +1,7 @@
 import os
 from unittest import TestCase
 
-from h5io_browser.base import read_nested_dict_from_hdf
+from h5io_browser.base import read_dict_from_hdf
 from pint import UnitRegistry
 
 from pyiron_io.convert import (
@@ -15,7 +15,7 @@ from pyiron_io.convert import (
 class TestConvert(TestCase):
     def test_sphinx(self):
         ureg = UnitRegistry()
-        job_dict = read_nested_dict_from_hdf(
+        job_dict = read_dict_from_hdf(
             file_name=os.path.join(os.path.dirname(__file__), "static", "sx.h5"),
             h5_path="/sx",
             recursive=True,
@@ -26,7 +26,7 @@ class TestConvert(TestCase):
 
     def test_lammps(self):
         ureg = UnitRegistry()
-        job_dict = read_nested_dict_from_hdf(
+        job_dict = read_dict_from_hdf(
             file_name=os.path.join(os.path.dirname(__file__), "static", "lmp.h5"),
             h5_path="/lmp",
             recursive=True,
@@ -37,7 +37,7 @@ class TestConvert(TestCase):
 
     def test_vasp(self):
         ureg = UnitRegistry()
-        job_dict = read_nested_dict_from_hdf(
+        job_dict = read_dict_from_hdf(
             file_name=os.path.join(os.path.dirname(__file__), "static", "vasp.h5"),
             h5_path="/vasp",
             recursive=True,
@@ -55,7 +55,7 @@ class TestConvert(TestCase):
             "vasp.h5": -14.7459202 * ureg.eV,
         }
         for hdf5_file in os.listdir(static_folder):
-            job_dict = read_nested_dict_from_hdf(
+            job_dict = read_dict_from_hdf(
                 file_name=os.path.join(static_folder, hdf5_file),
                 h5_path="/",
                 recursive=True,

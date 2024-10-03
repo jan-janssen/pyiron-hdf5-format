@@ -5,7 +5,7 @@ from pyiron_io.hdf import (
     convert_generic_parameters_to_dictionary,
     convert_generic_parameters_to_string,
 )
-from pyiron_io.dataclasses.generic import (
+from pyiron_dataclasses.v1.generic import (
     Executable,
     Interactive,
     GenericInput,
@@ -20,14 +20,14 @@ from pyiron_io.dataclasses.generic import (
     DensityOfStates,
     ChargeDensity,
 )
-from pyiron_io.dataclasses.lammps import (
+from pyiron_dataclasses.v1.lammps import (
     LammpsJob,
     LammpsInput,
     LammpsOutput,
     LammpsPotential,
     LammpsInputFiles,
 )
-from pyiron_io.dataclasses.sphinx import (
+from pyiron_dataclasses.v1.sphinx import (
     SphinxJob,
     SphinxInput,
     SphinxInputParameters,
@@ -51,7 +51,7 @@ from pyiron_io.dataclasses.sphinx import (
     PawPot,
     BornOppenheimer,
 )
-from pyiron_io.dataclasses.vasp import (
+from pyiron_dataclasses.v1.vasp import (
     VaspJob,
     VaspInput,
     VaspOutput,

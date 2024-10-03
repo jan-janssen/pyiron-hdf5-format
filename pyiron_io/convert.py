@@ -5,17 +5,21 @@ from pyiron_io.hdf import (
     convert_generic_parameters_to_dictionary,
     convert_generic_parameters_to_string,
 )
-from pyiron_dataclasses.v1.generic import (
+from pyiron_dataclasses.v1.job import (
     Executable,
     Interactive,
-    GenericInput,
-    GenericOutput,
-    OutputGenericDFT,
     GenericDict,
     Server,
+)
+from pyiron_dataclasses.v1.atomistic import (
+    GenericInput,
+    GenericOutput,
     Structure,
     Units,
     Cell,
+)
+from pyiron_dataclasses.v1.dft import (
+    OutputGenericDFT,
     ElectronicStructure,
     DensityOfStates,
     ChargeDensity,
@@ -93,8 +97,7 @@ def convert_sphinx_job_dict(job_dict: dict) -> SphinxJob:
             qid=job_dict["server"]["qid"],
             cores=job_dict["server"]["cores"],
             threads=job_dict["server"]["threads"],
-            new_h5=job_dict["server"]["new_h5"],
-            structure_id=job_dict["server"]["structure_id"],
+            new_hdf=job_dict["server"]["new_h5"],
             run_time=job_dict["server"]["run_time"],
             memory_limit=job_dict["server"]["memory_limit"],
             accept_crash=job_dict["server"]["accept_crash"],
@@ -549,8 +552,7 @@ def convert_lammps_job_dict(job_dict: dict) -> LammpsJob:
             qid=job_dict["server"]["qid"],
             cores=job_dict["server"]["cores"],
             threads=job_dict["server"]["threads"],
-            new_h5=job_dict["server"]["new_h5"],
-            structure_id=job_dict["server"]["structure_id"],
+            new_hdf=job_dict["server"]["new_h5"],
             run_time=job_dict["server"]["run_time"],
             memory_limit=job_dict["server"]["memory_limit"],
             accept_crash=job_dict["server"]["accept_crash"],
@@ -617,8 +619,7 @@ def convert_vasp_job_dict(job_dict):
             qid=job_dict["server"]["qid"],
             cores=job_dict["server"]["cores"],
             threads=job_dict["server"]["threads"],
-            new_h5=job_dict["server"]["new_h5"],
-            structure_id=job_dict["server"]["structure_id"],
+            new_hdf=job_dict["server"]["new_h5"],
             run_time=job_dict["server"]["run_time"],
             memory_limit=job_dict["server"]["memory_limit"],
             accept_crash=job_dict["server"]["accept_crash"],
